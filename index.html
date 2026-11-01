@@ -50,7 +50,15 @@ const IDS = {
   test: "1FAIpQLSf-8TJmEabah9MvmTLNLc4ouaBskNm5IPQe33dXF0GDwNhVFQ"
 };
 const MODE = new URLSearchParams(location.search).get("test") === "1" ? "test" : "prod";
-document.getElementById("gform").src = "https://docs.google.com/forms/d/e/" + IDS[MODE] + "/viewform?embedded=true";
+const gf = document.getElementById("gform");
+gf.src = "https://docs.google.com/forms/d/e/" + IDS[MODE] + "/viewform?embedded=true";
+let loads = 0;
+gf.addEventListener("load", () => {
+  loads++;
+  const tall = loads % 2 === 1;
+  gf.style.height = tall ? "" : "430px";
+  if (!tall) gf.scrollIntoView({behavior:"smooth", block:"center"});
+});
 </script>
 </body>
 </html>
