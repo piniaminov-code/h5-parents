@@ -29,6 +29,7 @@
   .help{font-size:.92rem;color:var(--muted);margin-top:6px}
   .error{font-size:.92rem;color:#b3261e;margin-top:6px;display:none;font-weight:600}
   .field.invalid .error{display:block}
+  .neterr{display:none;color:#b3261e;text-align:center;margin:10px 0 0;font-size:14px}
   .field.invalid input,.field.invalid textarea,.field.invalid .chip{border-color:#b3261e}
   input[type=text],textarea{width:100%;font:inherit;font-size:1.05rem;color:var(--ink);border:2px solid #b9c9d6;border-radius:12px;padding:12px 14px;background:#fff}
   textarea{min-height:130px;resize:vertical}
@@ -87,6 +88,7 @@
       <p class="error">נא לכתוב שאלה או נושא</p>
     </div>
     <button type="submit" class="submit" id="submitbtn">שליחת השאלה</button>
+    <p class="neterr" id="neterr" role="alert">אין חיבור לאינטרנט כרגע. בדקו את החיבור ונסו שוב.</p>
   </form>
   <div class="thanks" id="thanks" role="status">
     <h2>תודה! השאלה נשלחה.</h2>
@@ -133,6 +135,9 @@ form.addEventListener("submit", ev => {
   if (!q) { document.getElementById("f-q").classList.add("invalid"); ok = false; }
   else document.getElementById("f-q").classList.remove("invalid");
   if (!ok) return;
+  const neterr = document.getElementById("neterr");
+  if (!navigator.onLine) { neterr.style.display = "block"; return; }
+  neterr.style.display = "none";
   const btn = document.getElementById("submitbtn");
   btn.disabled = true;
   const ghost = document.createElement("form");
